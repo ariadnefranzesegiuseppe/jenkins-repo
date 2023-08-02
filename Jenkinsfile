@@ -25,12 +25,9 @@ pipeline {
 
 
     stage('Deploying container to Kubernetes') {
-      steps {
-        echo "Apply manifest"
-        sh '''
-        kubectl apply -f deployment.yml
-        '''
-      }
+     withKubeConfig([credentialsId: 'docker-desktop', serverUrl: 'https://kubernetes.docker.internal:6443']) {
+      sh 'kubectl apply -f deployment.yml'
+     }
     }
 
   }
