@@ -25,13 +25,14 @@ pipeline {
 
 
     stage('Deploying container to Kubernetes') {
-     steps{
-        withKubeConfig([credentialsId: 'docker-desktop', serverUrl: 'https://kubernetes.docker.internal:6443']) {
-         sh 'kubectl apply -f deployment.yml'
-        }
-     }
+      steps {
+        script {
+          kubernetesDeploy(configs: "deployment.yml")
+        }  
+      }
+
     }
 
-  }
+}
 
 }
