@@ -27,7 +27,7 @@ pipeline {
     stage('Deploying container to Kubernetes') {
       steps {
         script {
-          kubernetesDeploy(configs: "deployment.yml")
+          sh 'kubectl version'
         }  
       }
 
