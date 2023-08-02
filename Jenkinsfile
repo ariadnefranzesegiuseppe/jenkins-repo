@@ -26,9 +26,10 @@ pipeline {
 
     stage('Deploying container to Kubernetes') {
       steps {
-        script {
-          kubernetesDeploy(configs: "deployment.yml")
-        }
+        echo "Apply manifest"
+        sh '''
+        kubectl apply -f deployment.yml
+        '''
       }
     }
 
