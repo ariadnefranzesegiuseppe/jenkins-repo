@@ -28,8 +28,8 @@ pipeline {
     stage('Login to ACR'){
       steps{
         sh '''
-        az login --identity --username ${identityid}
-        az acr login --name ${acrname} 
+        az login --identity --username "${identityid}"
+        az acr login --name "${acrname}" 
         '''
       }
     }
@@ -39,7 +39,7 @@ pipeline {
         sh '''
         docker tag "${dockerimagename}:latest" ${acrname}.azurecr.io/${dockerimagename}:latest
         docker push ${acrname}.azurecr.io/${dockerimagename}:latest
-        docker image rm -f "${dockerimagename}:latest"
+        docker image rm -f "${dockerimagename}:latest" ${acrname}.azurecr.io/${dockerimagename}:latest
         '''
       }
     }
