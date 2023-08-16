@@ -52,7 +52,6 @@ pipeline {
       }
     }*/
 
-
     /*stage('Deploying container to Kubernetes') {
       steps{
        script {
