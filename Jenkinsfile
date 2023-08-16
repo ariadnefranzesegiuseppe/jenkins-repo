@@ -3,6 +3,9 @@ pipeline {
   environment {
     dockerimagename = "ariadne/httpd"
     dockerImage = ""
+    identityid = "1a53ccb7-bb8f-442b-a668-72bb178781fe"
+    acrname = "" 
+    acrurl = ""
   }
 
   agent any
@@ -26,13 +29,29 @@ pipeline {
     stage('Login to ACR'){
       steps{
         sh '''
-        az login --identity --username 1a53ccb7-bb8f-442b-a668-72bb178781fe
-        az acr login --name testgiuseppeecr
-        docker tag "${dockerimagename}:latest" testgiuseppeecr.azurecr.io/${dockerimagename}:latest
-        docker push testgiuseppeecr.azurecr.io/${dockerimagename}:latest  
+        az login --identity --username ${identityid}
+        az acr login --name ${acrname} 
         '''
       }
     }
+
+    stage('Push to ACR'){
+      steps{
+        sh '''
+        docker tag "${dockerimagename}:latest" ${acrname}.azurecr.io/${dockerimagename}:latest
+        docker push ${acrname}.azurecr.io/${dockerimagename}:latest
+        docker image rm -f "${dockerimagename}:latest"
+        '''
+      }
+    }
+
+    /*stage('Connect to AKS'){
+      steps{
+        sh '''
+        az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+        '''
+      }
+    }*/
 
 
     /*stage('Deploying container to Kubernetes') {
