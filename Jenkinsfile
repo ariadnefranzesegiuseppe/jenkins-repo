@@ -23,6 +23,17 @@ pipeline {
       }
     }
 
+    stage('Login to ACR'){
+      steps{
+        sh '''
+        az login --identity --username 1a53ccb7-bb8f-442b-a668-72bb178781fe
+        az acr login --name testgiuseppeecr
+        docker tag "${dockerimagename}:latest" testgiuseppeecr.azurecr.io/${dockerimagename}:latest
+        docker push testgiuseppeecr.azurecr.io/${dockerimagename}:latest  
+        '''
+      }
+    }
+
 
     /*stage('Deploying container to Kubernetes') {
       steps{
