@@ -4,8 +4,7 @@ pipeline {
     dockerimagename = "ariadne/httpd"
     dockerImage = ""
     identityid = "1a53ccb7-bb8f-442b-a668-72bb178781fe"
-    acrname = "" 
-    acrurl = ""
+    acrname = "testgiuseppeecr" 
   }
 
   agent any
