@@ -32,6 +32,7 @@ pipeline {
     stage('Login to ACR'){
       steps{
         sh '''
+        echo "$(date)"
         az login --identity --username "${identityid}"
         az acr login --name "${acrname}" 
         '''
@@ -41,6 +42,7 @@ pipeline {
     stage('Push to ACR'){
       steps{
         sh '''
+        echo "$(date)"
         docker tag "${dockerimagename}:latest" ${acrname}.azurecr.io/${dockerimagename}:latest
         docker push ${acrname}.azurecr.io/${dockerimagename}:latest
         docker image rm -f "${dockerimagename}:latest" ${acrname}.azurecr.io/${dockerimagename}:latest

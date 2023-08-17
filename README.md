@@ -1,10 +1,11 @@
 # JENKINS-REPO #
 
 Passi seguiti per creare una Pipeline per la build di un'immagine Docker e il deploy su AKS.
+Ho utilizzato GitHub perchè ho meno problemi di permessi ma per GitLab dovrebbe essere molto simile.
 
 ### INSTALLAZIONE JENKINS AZURE VM###
-- Oracle Linux 8.6 (RHEL based, dovrebbe essere questa)
-- Problemi Firewall -> firewall-cmd --add-port=80/tcp --permanent , firewall-cmd --reload
+- Oracle Linux 8.6 (RHEL based, dovrebbero darci una vm simile)
+- Problemi Firewall -> firewall-cmd --add-port=80/tcp --permanent && firewall-cmd --reload
 
 # JENKINS 2.401.3#
 - sudo -i
@@ -60,7 +61,13 @@ Non sono riuscito a capire come replicare gli IAM Role su Azure, ma a quanto par
 - az aks install-cli
 
 #CONFIGURARE PIPELINE DA INTERFACCIA#
-Raggiungere da browser la macchina sulla porta 8080,
+Da browser raggiungere la macchina sulla porta 8080, nella parte a sinistra scegliere Gestisci Jenkins,
+in basso scegliere Credenziali > System > Credenziali globali (non limitate) e aggiungere le credenziali quali utente e password (non è la cosa più sicura, bisognerebbe generare un token da GIT e creare una coppia di chiavi da salvare il Jenkins come secret come spiegato qui: https://www.youtube.com/watch?v=jSm0YZ-NQAc ).
+Nel menù principale (Dashboard) scegliere Nuovo Elemento > Multibranch Pipeline e inserire il nome.
+Scegliere un Display Name, aggiungere in Branch Sources una sorgente di tipo Git/GutHub e inserire URL e credenziali, scegliere il path del Jenkinsfile e lasciare le altre configurazioni di default.
+
+Nell'interfaccia di Git, in Settings > Webhooks inserire la URL (tipo http://ip:8080/github-webhook/), Content Type (application/x-www-form-urlencoded) e selezionare Pushes e Pull requests come eventi e creare il webhook.
+N.B. bisogna aprire i NetworkSecurityGroup a tutti sulla porta 8080 per permettere al Git di raggiungere la macchina.
 
 ### PASSI DA SEGUIRE ###
 1. Build docker image
