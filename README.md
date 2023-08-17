@@ -6,6 +6,7 @@ Ho utilizzato GitHub perchè ho meno problemi di permessi ma per GitLab dovrebbe
 ### INSTALLAZIONE JENKINS AZURE VM###
 - Oracle Linux 8.6 (RHEL based, dovrebbero darci una vm simile)
 - Problemi Firewall -> firewall-cmd --add-port=80/tcp --permanent && firewall-cmd --reload
+- user: azureuser
 
 # JENKINS 2.401.3#
 - sudo -i
@@ -38,10 +39,14 @@ OPZIONALI MA POTREBBERO SERVIRE
 - dnf install azure-cli -y
 
 
-
 # JENKINS PLUGINS #
+Durante la prima configurazione da browser scegliere di installare i plugin suggeriti, 
+poi installare: Azure Commons Plugin, Azure CLI Plugin, Azure Container Registry Tasks Plugin, Azure Credentials, Azure SDK API Plugin, Docker API Plugin, Docker Commons Plugin, Docker Pipeline, Docker plugin, Git/GitHub vari, Kubernetes :: Pipeline :: DevOps Steps, Kubernetes CLI Plugin, Kubernetes Client API Plugin, Kubernetes Credentials Provider, Kubernetes plugin.
+Alcuni di questi vengono installati come dipendenze di altri, per la maggior parte installa da solo le dipendenze tra i plugin ma non è sempre così.
 
+Nel Jenkinsfile sono stati utilizzadi dei comandi bash, ma attraverso il corretto uso dei Plugin è possibile utilizzare anche una sintassi dedicata (possibilità da esplorare).
 
+# POLICY AZURE#
 IAM Role?
 Non sono riuscito a capire come replicare gli IAM Role su Azure, ma a quanto pare è possibile creare delle Managed Identity.
 
@@ -76,3 +81,8 @@ N.B. bisogna aprire i NetworkSecurityGroup a tutti sulla porta 8080 per permette
 4. Replace image in k8s manifest
 5. AKS login
 6. AKS apply (in teoria, con imagePullPolicy: always, basta aggiornare solo il manifest (YAML) del Deployment)
+
+# TODO #
+Login AKS cluster (az aks get-credentials --resource-group myResourceGroup --name myAKSCluster)
+Sed docker image manifest
+Apply manifest
