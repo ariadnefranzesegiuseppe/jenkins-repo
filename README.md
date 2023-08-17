@@ -42,7 +42,7 @@ OPZIONALI MA POTREBBERO SERVIRE
 
 
 IAM Role?
-Non sono riuscito a capire come replicare gli IAM Role su Azure, ma a quanto pare è possibile creare delle IAM identity.
+Non sono riuscito a capire come replicare gli IAM Role su Azure, ma a quanto pare è possibile creare delle Managed Identity.
 
 #creo l'identity (Managed Identities)
 - az identity create --resource-group myResourceGroup --name myidentity
@@ -58,6 +58,9 @@ Non sono riuscito a capire come replicare gli IAM Role su Azure, ma a quanto par
 - az acr login --name myContainerRegistry
 #installare kubectl
 - az aks install-cli
+
+#CONFIGURARE PIPELINE DA INTERFACCIA#
+Raggiungere da browser la macchina sulla porta 8080,
 
 ### PASSI DA SEGUIRE ###
 1. Build docker image
